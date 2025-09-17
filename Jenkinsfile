@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('compile') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/learndevops-083/samplemaven.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/jjwealth/JenkinsFolder.git']]])
                 sh 'mvn compile '
             }
         }
