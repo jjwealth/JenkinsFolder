@@ -4,41 +4,41 @@ pipeline {
     stages {
         stage('compile') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/jjwealth/JenkinsFolder.git']]])
-                sh 'mvn compile '
+                sh 'mvn compile'
             }
         }
+
         stage('code-review') {
             steps {
-                sh ' mvn -P metrics pmd:pmd  '
+                sh 'mvn -P metrics pmd:pmd'
             }
             post {
-                success{
+                success {
                     recordIssues(tools: [pmdParser(pattern: '**/pmd.xml')])
                 }
             }
         }
+
         stage('package') {
             steps {
                 sh 'mvn package'
             }
         }
-        
+
         stage('publish to jfrog') {
             steps {
-                rtUpload (
+                rtUpload(
                     serverId: 'jfrog-dev',
-                          spec: '''{
-                           "files": [
-                             {
-                               "pattern": "target/kitchensink.war",
-                               "target": "example-repo-local/"
+                    spec: '''{
+                        "files": [
+                            {
+                                "pattern": "target/kitchensink.war",
+                                "target": "example-repo-local/"
                             }
                         ]
                     }'''
-                 )
+                )
             }
         }
-        
     }
 }
