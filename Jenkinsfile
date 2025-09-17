@@ -1,6 +1,8 @@
 pipeline {
     agent any
 
+    //test Build process
+    
     stages {
         stage('compile') {
             steps {
